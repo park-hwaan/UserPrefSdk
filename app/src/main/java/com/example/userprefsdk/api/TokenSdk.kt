@@ -2,29 +2,27 @@ package com.example.userprefsdk.api
 
 import android.content.Context
 import com.example.userprefsdk.internal.DataStoreManager
+import com.example.userprefsdk.internal.TokenKeyProvider
 import kotlinx.coroutines.flow.Flow
 
 class TokenSdk(context: Context) {
 
-    private val manager = DataStoreManager(context.applicationContext)
+    private val manager = DataStoreManager(context)
 
-    suspend fun saveToken(type: TokenType, token: String) {
-        manager.save(type.toKey(), token)
+    suspend fun save(type: TokenType, value: String) {
+        manager.save(
+            key = TokenKeyProvider.keyOf(type),
+            value = value
+        )
     }
 
-    suspend fun getToken(type: TokenType): String? {
-        return manager.read(type.toKey())
-    }
+    fun observe(type: TokenType): Flow<String?> =
+        manager.readFlow(TokenKeyProvider.keyOf(type))
 
-    fun observeToken(type: TokenType): Flow<String?> {
-        return manager.readFlow(type.toKey())
-    }
+    suspend fun get(type: TokenType): String? =
+        manager.read(TokenKeyProvider.keyOf(type))
 
-    suspend fun clearToken(type: TokenType) {
-        manager.remove(type.toKey())
-    }
-
-    suspend fun clearAll() {
-        manager.clear()
+    suspend fun remove(type: TokenType) {
+        manager.remove(TokenKeyProvider.keyOf(type))
     }
 }
