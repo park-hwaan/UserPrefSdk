@@ -9,32 +9,102 @@ UserPrefSdk는 Android `DataStore (Preferences)`를 간단하고 안전하게 �
 
 ## 주요 기능
 
-- Preferences DataStore 래핑: suspend 기반 저장/읽기, Flow 기반 관찰 지원
-- JSON 직렬화/역직렬화(안전한 파싱)
-- 토큰 타입(서버 토큰, 카카오/네이버 토큰 등) 관리용 키 제공
-- 기본값 및 null 처리 지원
-- 간단한 API: `saveToken`, `observeToken`, `getToken`, `removeToken`
+✅ Preferences DataStore 기반 토큰 저장
+
+✅ suspend 기반 저장 / 조회 API
+
+✅ Flow 기반 토큰 변경 관찰
+
+✅ 토큰 타입(Enum) 기반 키 관리
+
+✅ 토큰 개별 삭제 
+
+✅ ViewModel / Coroutine / Flow 친화적 설계
 
 ---
 
 ## 왜 만들었나
 
-앱에서 토큰(Access/Refresh) 관리는 거의 모든 프로젝트에 필요합니다.
-`SharedPreferences`를 직접 다루면 동기/비동기 문제, 타입 안정성, 테스트 편의성 등에서 번거로움이 생깁니다.
-DataStore를 직접 사용하면 괜찮지만 반복되는 보일러플레이트가 많아서, 이를 추상화해 재사용 가능한 **Data layer wrapper**를 만들었습니다.
+Android 앱에서 토큰 관리는 거의 모든 프로젝트에 등장합니다.
 
-핵심 포인트:
-- Clean Architecture 친화적 (Repository/SDK 분리)
-- ViewModel / Coroutine / Flow 기반 앱에 바로 적용 가능
-- 테스트/모킹이 쉬움
+하지만 매번:
+
+ - DataStore 초기화
+
+ - Preferences.Key 정의
+
+ - suspend / Flow 처리
+
+ - 키 이름 관리
+
+를 반복하다 보면 보일러플레이트 코드가 불필요하게 증가합니다.
+
+UserPrefSdk는 이 문제를 해결하기 위해:
+
+✅ 토큰 관리 책임을 SDK로 분리
+
+✅ 앱 코드에서는 “무엇을 저장할지”만 신경 쓰도록
+
+✅ Clean Architecture 에서 Data Layer 도구로 사용 가능
+
+하도록 설계되었습니다.
 
 ---
 
-## 빠른 시작
-
-### Gradle 설정 (module / app)
-`settings.gradle.kts` / `build.gradle.kts`에 SDK 모듈을 포함하거나, AAR/Maven 배포 후 의존성 추가.
-
-예: 모듈로 포함한 경우
+## 설치방법
 ```kotlin
-implementation(project(":userprefsdk"))
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+
+implementation("com.github.park-hwaan:UserPrefSdk:v0.1.4")
+
+```
+### 제공하는 토큰 타입
+```kotlin
+enum class TokenType(val keyName: String) {
+    SERVER_ACCESS("server_access_token"),
+    SERVER_REFRESH("server_refresh_token"),
+
+    KAKAO_ACCESS("kakao_access_token"),
+    KAKAO_REFRESH("kakao_refresh_token"),
+
+    NAVER_ACCESS("naver_access_token"),
+    NAVER_REFRESH("naver_refresh_token"),
+}
+```
+
+##사용방법
+```kotlin
+val tokenSdk = TokenSdk(context)
+
+//토큰 저장
+viewModelScope.launch {
+    tokenSdk.save(
+        type = TokenType.SERVER_ACCESS,
+        value = "access_token_value"
+    )
+}
+
+//토큰 조회
+viewModelScope.launch {
+    val token = tokenSdk.get(TokenType.SERVER_ACCESS)
+}
+
+//토큰 Flow로 관찰
+tokenSdk.observe(TokenType.SERVER_ACCESS)
+    .onEach { token ->
+        // token 변경 감지
+    }
+    .launchIn(viewModelScope)
+
+//토큰삭제
+viewModelScope.launch {
+    tokenSdk.remove(TokenType.SERVER_ACCESS)
+}
+
+```
