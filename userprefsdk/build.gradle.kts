@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("maven-publish")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -45,4 +46,18 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+
+                groupId = "com.github.park-hwaan"
+                artifactId = "userprefsdk"
+                version = findProperty("version")?.toString() ?: "0.0.1"
+            }
+        }
+    }
 }
