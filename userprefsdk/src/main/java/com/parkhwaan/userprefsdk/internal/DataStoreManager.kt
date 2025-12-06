@@ -1,9 +1,9 @@
-package com.example.userprefsdk.internal
+package com.parkhwaan.userprefsdk.internal
 
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.example.userprefsdk.datastore.dataStore
+import com.parkhwaan.userprefsdk.datastore.dataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.firstOrNull

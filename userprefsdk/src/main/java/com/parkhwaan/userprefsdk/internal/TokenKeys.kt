@@ -1,4 +1,4 @@
-package com.example.userprefsdk.internal
+package com.parkhwaan.userprefsdk.internal
 
 import androidx.datastore.preferences.core.stringPreferencesKey
 

@@ -1,4 +1,4 @@
-package com.example.userprefsdk.api
+package com.parkhwaan.userprefsdk.api
 
 enum class TokenType(val keyName: String) {
     SERVER_ACCESS("server_access_token"),

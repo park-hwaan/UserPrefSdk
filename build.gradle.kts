@@ -4,4 +4,5 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     kotlin("plugin.serialization") version "1.9.0" apply false
     id("maven-publish")
+    alias(libs.plugins.android.library) apply false
 }

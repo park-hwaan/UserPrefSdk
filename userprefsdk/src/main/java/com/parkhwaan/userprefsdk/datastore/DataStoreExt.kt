@@ -1,4 +1,4 @@
-package com.example.userprefsdk.datastore
+package com.parkhwaan.userprefsdk.datastore
 
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore

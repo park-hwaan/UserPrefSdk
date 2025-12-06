@@ -1,7 +1,7 @@
-package com.example.userprefsdk.internal
+package com.parkhwaan.userprefsdk.internal
 
 import androidx.datastore.preferences.core.Preferences
-import com.example.userprefsdk.api.TokenType
+import com.parkhwaan.userprefsdk.api.TokenType
 
 internal fun TokenType.toKey(): Preferences.Key<String> =
     when (this) {

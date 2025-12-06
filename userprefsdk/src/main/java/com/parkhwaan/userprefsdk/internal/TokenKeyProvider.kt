@@ -1,8 +1,8 @@
-package com.example.userprefsdk.internal
+package com.parkhwaan.userprefsdk.internal
 
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.example.userprefsdk.api.TokenType
+import com.parkhwaan.userprefsdk.api.TokenType
 
 internal object TokenKeyProvider {
 

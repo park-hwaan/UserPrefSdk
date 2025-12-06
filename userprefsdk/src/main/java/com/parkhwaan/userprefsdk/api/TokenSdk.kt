@@ -1,8 +1,8 @@
-package com.example.userprefsdk.api
+package com.parkhwaan.userprefsdk.api
 
 import android.content.Context
-import com.example.userprefsdk.internal.DataStoreManager
-import com.example.userprefsdk.internal.TokenKeyProvider
+import com.parkhwaan.userprefsdk.internal.DataStoreManager
+import com.parkhwaan.userprefsdk.internal.TokenKeyProvider
 import kotlinx.coroutines.flow.Flow
 
 class TokenSdk(context: Context) {

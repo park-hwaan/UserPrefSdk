@@ -20,5 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "UserPrefSdk"
-include(":sdk")
- 
+include(":userprefsdk")
