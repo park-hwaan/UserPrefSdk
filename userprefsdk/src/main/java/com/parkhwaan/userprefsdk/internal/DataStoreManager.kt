@@ -34,7 +34,7 @@ internal class DataStoreManager(
         }
     }
 
-    suspend fun clear() {
+    suspend fun removeAll() {
         context.dataStore.edit { prefs ->
             prefs.clear()
         }

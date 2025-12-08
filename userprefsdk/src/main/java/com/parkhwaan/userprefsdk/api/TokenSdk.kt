@@ -25,4 +25,8 @@ class TokenSdk(context: Context) {
     suspend fun remove(type: TokenType) {
         manager.remove(TokenKeyProvider.keyOf(type))
     }
+
+    suspend fun removeAll(){
+        manager.removeAll()
+    }
 }

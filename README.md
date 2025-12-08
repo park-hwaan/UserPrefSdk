@@ -37,7 +37,7 @@ Android 앱에서 토큰 관리는 거의 모든 프로젝트에 등장합니다
 
  - 키 이름 관리
 
-를 반복하다 보면 보일러플레이트 코드가 불필요하게 증가합니다.
+를 반복하다 보면 코드가 불필요하게 증가합니다.
 
 UserPrefSdk는 이 문제를 해결하기 위해:
 
@@ -98,13 +98,18 @@ viewModelScope.launch {
 //토큰 Flow로 관찰
 tokenSdk.observe(TokenType.SERVER_ACCESS)
     .onEach { token ->
-        // token 변경 감지
+        
     }
     .launchIn(viewModelScope)
 
 //토큰삭제
 viewModelScope.launch {
     tokenSdk.remove(TokenType.SERVER_ACCESS)
+}
+
+//저장된 토큰 전체 삭제
+viewModelScope.launch {
+    tokenSdk.removeAll()
 }
 
 ```
